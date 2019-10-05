@@ -62,7 +62,71 @@ class InsertionSort(MetodoOrdenacao):
 
 # TODO: Implementar
 class MergeSort(MetodoOrdenacao):
-	pass
+	
+	@property
+	def identificador(self):
+		return 'merge_sort'
+
+	@staticmethod
+	def ordenar(comparador: Comparador[T], lista: List[T]) -> List[T]:
+		return MergeSort.__merge_sort(comparador, lista)
+
+	# l significa esquerda e r significa direita 
+	@staticmethod
+	def __merge_sort(lista_original: List[T], l: int, r: int): 
+		if l < r: 
+			# separando a lista no meio
+			m = (l+(r-1))//2
+	
+			# separando a lista 
+			merge_sort(lista_original, l, m) 
+			merge_sort(lista_original, m+1, r) 
+			MergeSort.merge(lista_original, l, m, r) 
+
+	# juntando sub-listas de lista_original[]. 
+	# primeira sublista: lista_original[l..m] 
+	# segunda sublista: lista_original[m+1..r]
+	def merge(self, lista_original: List[T], l: int, m: int, r: int): 
+		tam_sub1 = m - l + 1
+		tam_sub2 = r- m 
+	
+		# listas temorarias
+		lista_esquerda = [0] * (tam_sub1) 
+		lista_direita = [0] * (tam_sub2) 
+	
+		# copiando dados para listas temporarias
+		for i in range(0 , tam_sub1): 
+			lista_esquerda[i] = lista_original[l + i] 
+	
+		for j in range(0 , tam_sub2): 
+			lista_direita[j] = lista_original[m + 1 + j] 
+	
+		# juntando sub listas: lista[l..r] 
+		i = 0     # contador da primeira sub-lista
+		j = 0     # contador da primeira sub-lista
+		k = l     # contador do merge
+	
+		while i < tam_sub1 and j < tam_sub2 : 
+			if lista_esquerda[i] <= lista_direita[j]: 
+				lista_original[k] = lista_esquerda[i] 
+				i += 1
+			else: 
+				lista_original[k] = lista_direita[j] 
+				j += 1
+			k += 1
+	
+		# copiando os elementos restantes da lista_esquerda[], caso exista
+		while i < tam_sub1: 
+			lista_original[k] = lista_esquerda[i] 
+			i += 1
+			k += 1
+	
+		# copiando os elementos restantes da lista_direira[], caso exista
+		while j < tam_sub2: 
+			lista_original[k] = lista_direita[j] 
+			j += 1
+			k += 1
+
 
 
 # TODO: Implementar
