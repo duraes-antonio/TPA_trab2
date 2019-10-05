@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from src.util.comparadores import Comparador
+from src.util.comparador import Comparador
 
 
 class Usuario():
@@ -14,6 +14,12 @@ class Usuario():
 		self.data_nasc = data_nasc
 		self.altura = altura
 		self.peso = peso
+
+	def clone(self):
+		return Usuario(
+			self.email, self.genero, self.uuid, self.data_nasc, self.altura,
+			self.peso
+		)
 
 	def __str__(self) -> str:
 		return f"email: '{self.email}'; genero: '{self.genero}'; uuid: '{self.uuid}';" \
