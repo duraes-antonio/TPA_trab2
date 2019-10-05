@@ -1,6 +1,8 @@
 import time
 from datetime import datetime
 
+from src.sort._metodo_ordenacao import MetodoOrdenacao
+from src.sort.selection_sort import SelectionSort
 from src.usuario import Usuario, ComparadorUuid
 from src.util.verificador_ordenacao import lista_ordenada_decresc, lista_ordenada_cresc
 
@@ -12,6 +14,7 @@ def convert_linha_usuario(separador: str, linha: str, data_fmt: str) -> Usuario:
 		float(params[4]), float(params[5]))
 
 	return usuario
+
 
 def convert_arq_para_usuarios(arq_caminho: str, separador: str, data_fmt: str) -> [Usuario]:
 	"""
@@ -38,11 +41,11 @@ def convert_arq_para_usuarios(arq_caminho: str, separador: str, data_fmt: str) -
 
 	return usuarios
 
+
 # TODO: Implementar comparable
 # TODO: Parser de argumentos via CLI
 def main(args: [str]):
-
-	arq_path =  'data_10e0.csv'
+	arq_path = 'data_10e0.csv'
 	usuarios = convert_arq_para_usuarios(arq_path, ',', '%Y-%m-%d')
 
 	# Começar contagem de tempo
@@ -53,7 +56,6 @@ def main(args: [str]):
 	# Finalizar contagem de tempo
 	end = time.time()
 
-
 	# TODO: Escrever resultado em um CSV no caminho de saída recebido via CLI
 
 	# Imprimir a duração e o número de registros ordenados
@@ -61,8 +63,13 @@ def main(args: [str]):
 	print("ORD DESC:\t", lista_ordenada_decresc(ComparadorUuid, usuarios))
 	print("ORD CRESC:\t", lista_ordenada_cresc(ComparadorUuid, usuarios))
 
-	print("\nDuração: %f - Qtd. Registros: %d" %(end - start, len(usuarios)))
+	teste: MetodoOrdenacao = SelectionSort()
+	nova = teste.ordenar(ComparadorUuid, usuarios)
+
+	print("ORD DESC:\t", lista_ordenada_decresc(ComparadorUuid, nova))
+	print("ORD CRESC:\t", lista_ordenada_cresc(ComparadorUuid, nova))
 
 	return 0
+
 
 main([])
