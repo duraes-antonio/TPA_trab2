@@ -9,30 +9,33 @@ T = TypeVar('T')
 class MetodoOrdenacao(Generic[T], abc.ABC):
 
 	@property
-	def identificador(self):
+	def id(self):
 		return None
 
 	@staticmethod
 	@abc.abstractmethod
 	def ordenar(comparador: Comparador[T], lista: List[T]) -> List[T]:
 		"""
-        Realiza ordenação crescente in-place da lista com base no comparador
-        :param comparador: Objeto que estabelece a função de comparação p/ os objetos<T>
-        :param lista: Coleção de objetos<T> a ser ordenada
-        :return: Própria coleção de entrada ordenada
-        """
+		Realiza ordenação crescente in-place da lista com base no comparador
+		:param comparador: Objeto que estabelece a função de comparação p/ os objetos<T>
+		:param lista: Coleção de objetos<T> a ser ordenada
+		:return: Própria coleção de entrada ordenada
+		"""
 		raise NotImplementedError()
 
 
 # TODO: Implementar
 class HeapSort(MetodoOrdenacao):
-	pass
+
+	@staticmethod
+	def ordenar(comparador: Comparador[T], lista: List[T]) -> List[T]:
+		pass
 
 
 class InsertionSort(MetodoOrdenacao):
 
 	@property
-	def identificador(self):
+	def id(self):
 		return 'insertsort'
 
 	@staticmethod
@@ -62,9 +65,9 @@ class InsertionSort(MetodoOrdenacao):
 
 # TODO: Implementar
 class MergeSort(MetodoOrdenacao):
-	
+
 	@property
-	def identificador(self):
+	def id(self):
 		return 'merge_sort'
 
 	@staticmethod
@@ -73,71 +76,106 @@ class MergeSort(MetodoOrdenacao):
 
 	# l significa esquerda e r significa direita 
 	@staticmethod
-	def __merge_sort(lista_original: List[T], l: int, r: int): 
-		if l < r: 
+	def __merge_sort(lista_original: List[T], l: int, r: int) -> List[T]:
+		if l < r:
 			# separando a lista no meio
-			m = (l+(r-1))//2
-	
-			# separando a lista 
-			merge_sort(lista_original, l, m) 
-			merge_sort(lista_original, m+1, r) 
-			MergeSort.merge(lista_original, l, m, r) 
+			m = (l + (r - 1)) // 2
 
-	# juntando sub-listas de lista_original[]. 
-	# primeira sublista: lista_original[l..m] 
+			# separando a lista 
+			merge_sort(lista_original, l, m)
+			merge_sort(lista_original, m + 1, r)
+			MergeSort.merge(lista_original, l, m, r)
+
+	# juntando sub-listas de lista_original[].
+
+	# primeira sublista: lista_original[l..m]
 	# segunda sublista: lista_original[m+1..r]
-	def merge(self, lista_original: List[T], l: int, m: int, r: int): 
+	def merge(self, lista_original: List[T], l: int, m: int, r: int):
 		tam_sub1 = m - l + 1
-		tam_sub2 = r- m 
-	
+		tam_sub2 = r - m
+
 		# listas temorarias
-		lista_esquerda = [0] * (tam_sub1) 
-		lista_direita = [0] * (tam_sub2) 
-	
+		lista_esquerda = [0] * (tam_sub1)
+		lista_direita = [0] * (tam_sub2)
+
 		# copiando dados para listas temporarias
-		for i in range(0 , tam_sub1): 
-			lista_esquerda[i] = lista_original[l + i] 
-	
-		for j in range(0 , tam_sub2): 
-			lista_direita[j] = lista_original[m + 1 + j] 
-	
+		for i in range(0, tam_sub1):
+			lista_esquerda[i] = lista_original[l + i]
+
+		for j in range(0, tam_sub2):
+			lista_direita[j] = lista_original[m + 1 + j]
+
 		# juntando sub listas: lista[l..r] 
-		i = 0     # contador da primeira sub-lista
-		j = 0     # contador da primeira sub-lista
-		k = l     # contador do merge
-	
-		while i < tam_sub1 and j < tam_sub2 : 
-			if lista_esquerda[i] <= lista_direita[j]: 
-				lista_original[k] = lista_esquerda[i] 
+		i = 0  # contador da primeira sub-lista
+		j = 0  # contador da primeira sub-lista
+		k = l  # contador do merge
+
+		while i < tam_sub1 and j < tam_sub2:
+			if lista_esquerda[i] <= lista_direita[j]:
+				lista_original[k] = lista_esquerda[i]
 				i += 1
-			else: 
-				lista_original[k] = lista_direita[j] 
+			else:
+				lista_original[k] = lista_direita[j]
 				j += 1
 			k += 1
-	
+
 		# copiando os elementos restantes da lista_esquerda[], caso exista
-		while i < tam_sub1: 
-			lista_original[k] = lista_esquerda[i] 
+		while i < tam_sub1:
+			lista_original[k] = lista_esquerda[i]
 			i += 1
 			k += 1
-	
+
 		# copiando os elementos restantes da lista_direira[], caso exista
-		while j < tam_sub2: 
-			lista_original[k] = lista_direita[j] 
+		while j < tam_sub2:
+			lista_original[k] = lista_direita[j]
 			j += 1
 			k += 1
 
 
-
-# TODO: Implementar
 class QuickSort(MetodoOrdenacao):
-	pass
+
+	@property
+	def id(self):
+		return 'quicksort'
+
+	@staticmethod
+	def ordenar(comparador: Comparador[T], lista: List[T]) -> List[T]:
+		return QuickSort.__quicksort(lista, comparador, 0, len(lista) - 1)
+
+	@staticmethod
+	def __quicksort(
+			lista: List[T], cmp: Comparador[T], l: int, r: int) -> List[T]:
+
+		if l < r:
+			q = QuickSort.__particao(lista, cmp, l, r)
+			QuickSort.__quicksort(lista, cmp, l, q - 1)
+			QuickSort.__quicksort(lista, cmp, q + 1, r)
+
+		return lista
+
+	@staticmethod
+	def __particao(
+			lista: List[T], cmp: Comparador[T], esq: int, dir: int) -> int:
+
+		pivo = lista[dir]
+		i = esq - 1
+
+		for ind in range(esq, dir):
+
+			# Se o item atual for menor/igual que o pivô, troque-o c/ o pivô
+			if cmp.compararCom(lista[ind], pivo) <= 0:
+				i += 1
+				lista[i], lista[ind] = lista[ind], lista[i]
+
+		lista[i + 1], lista[dir] = lista[dir], lista[i + 1]
+
+		return i + 1
 
 
 class SelectionSort(MetodoOrdenacao):
 
 	@property
-	def identificador(self):
+	def id(self):
 		return 'selectsort'
 
 	@staticmethod
@@ -149,23 +187,21 @@ class SelectionSort(MetodoOrdenacao):
 
 		def min_indice(lista: List[T], ind_inic: int, ind_fim: int) -> int:
 			"""
-            Busca o índice do elemento de menor valor em uma lista
-
-            :param lista: Lista de elementos de mesmo tipo
-            :param ind_inic: Índice do primeiro elemento a ser verificado
-            :param ind_fim: Índice do último elemento considerado
-
-            :return: Inteiro com índice do menor elemento
-            """
-			ind_min = ind_inic
+			Busca o índice do elemento de menor valor em uma lista
+			:param lista: Lista de elementos de mesmo tipo
+			:param ind_inic: Índice do primeiro elemento a ser verificado
+			:param ind_fim: Índice do último elemento considerado
+			:return: Inteiro com índice do menor elemento
+			"""
+			indice_min = ind_inic
 
 			# Busque o índice do menor elemento do índice de início ao de fim
 			for i in range(ind_inic, ind_fim + 1):
 
-				if (comparador.compararCom(lista[ind_min], lista[i]) < 0):
-					ind_min = i
+				if comparador.compararCom(lista[indice_min], lista[i]) < 0:
+					indice_min = i
 
-			return ind_min
+			return indice_min
 
 		tam = len(lista)
 
@@ -179,5 +215,3 @@ class SelectionSort(MetodoOrdenacao):
 			lista[i], lista[ind_min] = lista[ind_min], lista[i]
 
 		return lista
-
-
