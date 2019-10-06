@@ -1,5 +1,4 @@
 import time
-from datetime import datetime
 
 from src.sort.metodos_ordenacao import *
 from src.sort.verificador_ordenacao import lista_ord_decresc, lista_ord_cresc
@@ -17,10 +16,9 @@ def main():
 	usuarios: List[Usuario] = convert_arq_usuarios(arq_path, ',', '%Y-%m-%d')
 
 	algs: List([MetodoOrdenacao], List[Usuario]) = [
-		(QuickSort(), usuarios)
+		(HeapSort(), usuarios)
 	]
 
-	print('INICIO:\t', datetime.now())
 	for alg_ord, lista in algs:
 
 		# Começar contagem de tempo
@@ -32,7 +30,6 @@ def main():
 
 		# Finalizar contagem de tempo
 		crono_fim = time.time()
-		print('FIM:\t', datetime.now())
 
 		crono_dif = crono_fim - crono_ini
 

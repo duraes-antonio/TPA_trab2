@@ -27,9 +27,60 @@ class MetodoOrdenacao(Generic[T], abc.ABC):
 # TODO: Implementar
 class HeapSort(MetodoOrdenacao):
 
+	@property
+	def id(self):
+		return 'heapsort'
+
 	@staticmethod
 	def ordenar(comparador: Comparador[T], lista: List[T]) -> List[T]:
-		pass
+		return HeapSort.__heapsort(lista, comparador)
+
+	@staticmethod
+	def __heapify(
+			lista: List[T], i: int, cmp: Comparador[T], tam: int):
+
+		esq = 2 * i + 1
+		dir = esq + 1
+		maior = -1
+
+		# Se houver um item à esquerda do elemento de índice i
+		# E esse item for maior que o atual elemento de índice i,
+		# Então: Atualize o índice do maior elemento
+		if esq < tam and cmp.compararCom(lista[esq], lista[i]) > 0:
+			maior = esq
+
+		else:
+			maior = i
+
+		# Se houver um item à direita do elemento de índice i
+		# E esse item for maior que o atual elemento máximo, atualize o
+		# índice do maior elemento
+		if (dir < tam and cmp.compararCom(lista[dir], lista[maior]) > 0):
+			maior = dir
+
+		# Se o maior elemento não for o de índice i, troque o item de índice
+		# i com o elemento de maior valor
+		if maior != i:
+			lista[i], lista[maior] = lista[maior], lista[i]
+			HeapSort.__heapify(lista, maior, cmp, tam)
+
+	@staticmethod
+	def __heapsort(lista: List[T], comparador: Comparador[T]) -> List[T]:
+
+		# Método baseado no capítulo 6.3 do livro 'Algoritmos' (T. H. Cormen)
+		tam = len(lista)
+
+		for i in range(tam // 2, -1, -1):
+			HeapSort.__heapify(lista, i, comparador, tam)
+
+		# Percorra a lista da direita p/ esquerda, do último índice até o
+		# segundo. Com o heapify sendo feito de 0 até 'i', e 'i'
+		# decrementando em 1, simula-se a remoção de um nó a cada iteração.
+		for i in range(tam - 1, 0, -1):
+			lista[i], lista[0] = lista[0], lista[i]
+			HeapSort.__heapify(lista, 0, comparador, i)
+
+		return lista
 
 
 class InsertionSort(MetodoOrdenacao):
