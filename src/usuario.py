@@ -28,6 +28,21 @@ class Usuario():
 	def __repr__(self) -> str:
 		return str(self)
 
+	def __eq__(self, outro):
+		return self.uuid == outro.uuid
+
+	def __lt__(self, outro):
+		return self.uuid < outro.uuid
+
+	def __le__(self, outro):
+		return self.uuid <= outro.uuid
+
+	def __gt__(self, outro):
+		return self.uuid > outro.uuid
+
+	def __ge__(self, outro):
+		return self.uuid >= outro.uuid
+
 
 class ComparadorUuid(Comparador[Usuario]):
 

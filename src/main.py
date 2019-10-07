@@ -12,12 +12,13 @@ def parse_args():
 
 
 def main():
-	arq_path = '../dados/data_10e3.csv'
+	arq_path = '../dados/data_10e2.csv'
 	usuarios: List[Usuario] = convert_arq_usuarios(arq_path, ',', '%Y-%m-%d')
 
 	algs: List([MetodoOrdenacao], List[Usuario]) = [
 		(HeapSort(), usuarios[:]),
 		(InsertionSort(), usuarios[:]),
+		(IntroSort(), usuarios[:]),
 		(MergeSort(), usuarios[:]),
 		(QuickSort(), usuarios[:]),
 		(SelectionSort(), usuarios[:]),

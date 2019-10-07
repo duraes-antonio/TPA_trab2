@@ -1,4 +1,5 @@
 import abc
+from math import log2
 from typing import TypeVar, Generic, List, Optional
 
 from src.util.comparador import Comparador
@@ -160,31 +161,12 @@ class QuickSort(MetodoOrdenacao):
 	@staticmethod
 	def __quicksort(
 			lista: List[T], cmp: Comparador[T], l: int, r: int) -> List[T]:
-
 		if l < r:
-			q = QuickSort.__particao(lista, cmp, l, r)
+			q = particao(lista, cmp, l, r)
 			QuickSort.__quicksort(lista, cmp, l, q - 1)
 			QuickSort.__quicksort(lista, cmp, q + 1, r)
 
 		return lista
-
-	@staticmethod
-	def __particao(
-			lista: List[T], cmp: Comparador[T], i_esq: int, i_dir: int) -> int:
-
-		pivo = lista[i_dir]
-		i = i_esq - 1
-
-		for ind in range(i_esq, i_dir):
-
-			# Se o item atual for menor/igual que o pivô, troque-o c/ o pivô
-			if cmp.compararCom(lista[ind], pivo) <= 0:
-				i += 1
-				lista[i], lista[ind] = lista[ind], lista[i]
-
-		lista[i + 1], lista[i_dir] = lista[i_dir], lista[i + 1]
-
-		return i + 1
 
 
 class SelectionSort(MetodoOrdenacao):
@@ -244,6 +226,65 @@ class SelectionSort(MetodoOrdenacao):
 
 
 # 2 Métodos extras
+class IntroSort(MetodoOrdenacao):
+	__qtd_min = 32
+
+	@property
+	def id(self):
+		return 'introsort'
+
+	@staticmethod
+	def ordenar(comparador: Comparador[T], lista: List[T]) -> List[T]:
+
+		# Calcule o dobro do (piso do tamanho da lista)
+		max_niveis = int(log2(len(lista) - 1)) * 2
+
+		IntroSort.__intro_sort(lista, comparador, 0, len(lista) - 1, max_niveis)
+
+		return lista
+
+	@staticmethod
+	def __mediana_3(lista: List[T], i_inic: int, i_meio: int, i_fim: int) -> int:
+
+		item_1 = lista[i_inic]
+		item_2 = lista[i_meio]
+		item_3 = lista[i_fim]
+
+		if item_3 >= item_1 >= item_2 or item_3 <= item_1 <= item_2:
+			return i_inic
+
+		if item_3 >= item_2 >= item_1 or item_3 <= item_2 <= item_1:
+			return i_meio
+
+		if item_1 >= item_3 >= item_2 or item_1 <= item_3 <= item_2:
+			return i_fim
+
+	@staticmethod
+	def __intro_sort(
+			lista: List[T], cmp: Comparador[T], i_ini: int, i_fim: int,
+			niveis_limite: float) -> List[T]:
+
+		tam = i_fim - i_ini
+
+		if tam <= IntroSort.__qtd_min:
+			return InsertionSort.ordenar(cmp, lista, i_ini, i_fim)
+
+		elif niveis_limite == 0:
+			return HeapSort.ordenar(cmp, lista)
+
+		else:
+			# TODO: citar e referenciar artigo lido
+			p = IntroSort.__mediana_3(lista, i_ini, i_ini + tam // 2, i_fim)
+			lista[p], lista[i_fim] = lista[i_fim], lista[p]
+
+			piv = particao(lista, cmp, i_ini, i_fim)
+
+			IntroSort.__intro_sort(lista, cmp, i_ini, piv - 1, niveis_limite - 1)
+			IntroSort.__intro_sort(lista, cmp, piv + 1, i_fim, niveis_limite - 1)
+
+		return lista
+
+
 class TimSort(MetodoOrdenacao):
 	__tam_run = 16
 
@@ -329,3 +370,20 @@ def merge(
 	for it in range(j, n2):
 		lista[i_esq] = sublista_dir[it]
 		i_esq += 1
+
+
+def particao(
+		lista: List[T], cmp: Comparador[T], i_esq: int, i_dir: int) -> int:
+	pivo = lista[i_dir]
+	i = i_esq - 1
+
+	for ind in range(i_esq, i_dir):
+
+		# Se o item atual for menor/igual que o pivô, troque-o c/ o pivô
+		if cmp.compararCom(lista[ind], pivo) <= 0:
+			i += 1
+			lista[i], lista[ind] = lista[ind], lista[i]
+
+	lista[i + 1], lista[i_dir] = lista[i_dir], lista[i + 1]
+
+	return i + 1
