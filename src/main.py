@@ -16,7 +16,12 @@ def main():
 	usuarios: List[Usuario] = convert_arq_usuarios(arq_path, ',', '%Y-%m-%d')
 
 	algs: List([MetodoOrdenacao], List[Usuario]) = [
-		(HeapSort(), usuarios)
+		(HeapSort(), usuarios[:]),
+		(InsertionSort(), usuarios[:]),
+		(MergeSort(), usuarios[:]),
+		(QuickSort(), usuarios[:]),
+		(SelectionSort(), usuarios[:]),
+		(TimSort(), usuarios[:])
 	]
 
 	for alg_ord, lista in algs:
