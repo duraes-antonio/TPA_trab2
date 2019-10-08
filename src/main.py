@@ -1,11 +1,13 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 import time
 from datetime import datetime
 
-from src.sort.metodos_ordenacao import *
-from src.sort.verificador_ordenacao import lista_ord_cresc
-from src.usuario import Usuario, ComparadorUuid
-from src.util.csv_manipulador import convert_arq_usuarios, convert_usuarios_arq
+from sort.metodos_ordenacao import *
+from sort.verificador_ordenacao import lista_ord_cresc
+from usuario import Usuario, ComparadorUuid
+from util.csv_manipulador import convert_arq_usuarios, convert_usuarios_arq
 
 
 # TODO: Parser de argumentos via CLI

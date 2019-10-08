@@ -1,6 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from typing import List, TypeVar
 
-from src.util.comparador import Comparador
+from util.comparador import Comparador
 
 T = TypeVar('T')
 

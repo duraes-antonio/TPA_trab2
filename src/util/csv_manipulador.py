@@ -1,7 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from datetime import datetime
 from typing import List
 
-from src.usuario import Usuario
+from usuario import Usuario
 
 
 def convert_linha_usuario(sep: str, linha: str, data_fmt: str) -> Usuario:

@@ -1,6 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from datetime import datetime
 
-from src.util.comparador import Comparador
+from util.comparador import Comparador
 
 
 class Usuario():

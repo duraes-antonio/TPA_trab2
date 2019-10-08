@@ -1,8 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import abc
 from math import log2
 from typing import TypeVar, Generic, List, Optional
 
-from src.util.comparador import Comparador
+from util.comparador import Comparador
 
 T = TypeVar('T')
 
