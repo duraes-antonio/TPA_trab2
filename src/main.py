@@ -1,9 +1,11 @@
+import os
 import time
+from datetime import datetime
 
 from src.sort.metodos_ordenacao import *
-from src.sort.verificador_ordenacao import lista_ord_decresc, lista_ord_cresc
+from src.sort.verificador_ordenacao import lista_ord_cresc
 from src.usuario import Usuario, ComparadorUuid
-from src.util.csv_manipulador import convert_arq_usuarios
+from src.util.csv_manipulador import convert_arq_usuarios, convert_usuarios_arq
 
 
 # TODO: Parser de argumentos via CLI
@@ -12,40 +14,54 @@ def parse_args():
 
 
 def main():
-	arq_path = '../dados/data_10e2.csv'
-	usuarios: List[Usuario] = convert_arq_usuarios(arq_path, ',', '%Y-%m-%d')
+	path_dados = "../dados/"
+	arq_paths = [path_dados + filename for root, dirs, files in os.walk(path_dados)
+				 for filename in files]
 
-	algs: List([MetodoOrdenacao], List[Usuario]) = [
-		(HeapSort(), usuarios[:]),
-		(InsertionSort(), usuarios[:]),
-		(IntroSort(), usuarios[:]),
-		(MergeSort(), usuarios[:]),
-		(QuickSort(), usuarios[:]),
-		(SelectionSort(), usuarios[:]),
-		(TimSort(), usuarios[:])
-	]
+	algs: List[MetodoOrdenacao] = [
+		IntroSort, QuickSort, TimSort, MergeSort, HeapSort, InsertionSort,
+		SelectionSort]
 
-	for alg_ord, lista in algs:
+	# Para cada algoritmo na lista de métodos de ordenação
+	for alg in algs:
+		alg_ord: MetodoOrdenacao = alg
 
-		# Começar contagem de tempo
-		crono_ini = time.time()
+		# Para cada caminho de arquivo na lista de arquivos
+		for arq_path in arq_paths:
+			usuarios: List[Usuario] = convert_arq_usuarios(arq_path, ',', '%Y-%m-%d')
 
-		# Chamar algorítimo de ordenação
-		fun_ord: MetodoOrdenacao = alg_ord
-		nova: List[Usuario] = fun_ord.ordenar(ComparadorUuid, lista)
+			nome = f'{alg_ord.id}_{len(usuarios)}.csv'
+			arq_saida = open(nome, 'w')
+			arq_saida.write(f'i exec;duracao (ms);hora início;hora fim\n')
 
-		# Finalizar contagem de tempo
-		crono_fim = time.time()
+			# Realize 10 execuções para cada caso
+			for i in range(1, 11):
 
-		crono_dif = crono_fim - crono_ini
+				# Copie a lista de entrada
+				lista = usuarios[:]
 
-		print("\nORD DESC:\t", lista_ord_decresc(ComparadorUuid, nova))
-		print("ORD CRESC:\t", lista_ord_cresc(ComparadorUuid, nova))
+				# Começar contagem de tempo
+				data_ini = datetime.now()
+				crono_ini = time.time()
 
-		# TODO: Escrever resultado em um CSV no caminho de saída recebido via CLI
+				# Chamar algorítimo de ordenação
+				alg_ord.ordenar(ComparadorUuid, lista)
 
-		# Imprimir a duração e o número de registros ordenados
-		print('\n%s\t %d\t %.10f' % (fun_ord.id, len(lista), crono_dif))
+				# Finalizar contagem de tempo
+				crono_fim = time.time()
+				data_fim = datetime.now()
+
+				crono_dif = crono_fim - crono_ini
+				crono_dif *= 1000
+				arq_saida.write(f'{i};{crono_dif};{data_ini};{data_fim}\n')
+
+				convert_usuarios_arq(f"arq_ordenado_{alg_ord.id}_{len(usuarios)}_{i}.csv", lista)
+
+				# Imprimir a duração e o número de registros ordenados
+				print("ORD. CRESC.:", lista_ord_cresc(ComparadorUuid, lista))
+				print('\n%s\t %d\t %.6f' % (alg_ord.id, len(lista), crono_dif))
+
+			arq_saida.close()
 
 
 	return 0

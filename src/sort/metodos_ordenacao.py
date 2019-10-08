@@ -9,9 +9,7 @@ T = TypeVar('T')
 
 class MetodoOrdenacao(Generic[T], abc.ABC):
 
-	@property
-	def id(self):
-		return None
+	id: str = ""
 
 	@staticmethod
 	@abc.abstractmethod
@@ -27,9 +25,7 @@ class MetodoOrdenacao(Generic[T], abc.ABC):
 
 class HeapSort(MetodoOrdenacao):
 
-	@property
-	def id(self):
-		return 'heapsort'
+	id = 'heapsort'
 
 	@staticmethod
 	def ordenar(comparador: Comparador[T], lista: List[T]) -> List[T]:
@@ -85,9 +81,7 @@ class HeapSort(MetodoOrdenacao):
 
 class InsertionSort(MetodoOrdenacao):
 
-	@property
-	def id(self):
-		return 'insertsort'
+	id = 'insertsort'
 
 	@staticmethod
 	def ordenar(
@@ -124,9 +118,7 @@ class InsertionSort(MetodoOrdenacao):
 
 class MergeSort(MetodoOrdenacao):
 
-	@property
-	def id(self):
-		return 'merge_sort'
+	id ='merge_sort'
 
 	@staticmethod
 	def ordenar(comparador: Comparador[T], lista: List[T]) -> List[T]:
@@ -150,9 +142,7 @@ class MergeSort(MetodoOrdenacao):
 
 class QuickSort(MetodoOrdenacao):
 
-	@property
-	def id(self):
-		return 'quicksort'
+	id = 'quicksort'
 
 	@staticmethod
 	def ordenar(comparador: Comparador[T], lista: List[T]) -> List[T]:
@@ -171,9 +161,7 @@ class QuickSort(MetodoOrdenacao):
 
 class SelectionSort(MetodoOrdenacao):
 
-	@property
-	def id(self):
-		return 'selectsort'
+	id = 'selectsort'
 
 	@staticmethod
 	def ordenar(
@@ -229,9 +217,7 @@ class SelectionSort(MetodoOrdenacao):
 class IntroSort(MetodoOrdenacao):
 	__qtd_min = 32
 
-	@property
-	def id(self):
-		return 'introsort'
+	id = 'introsort'
 
 	@staticmethod
 	def ordenar(comparador: Comparador[T], lista: List[T]) -> List[T]:
@@ -288,9 +274,7 @@ class IntroSort(MetodoOrdenacao):
 class TimSort(MetodoOrdenacao):
 	__tam_run = 16
 
-	@property
-	def id(self):
-		return 'timsort'
+	id = 'timsort'
 
 	@staticmethod
 	def ordenar(comparador: Comparador[T], lista: List[T]) -> List[T]:

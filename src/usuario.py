@@ -22,8 +22,7 @@ class Usuario():
 		)
 
 	def __str__(self) -> str:
-		return f"email: '{self.email}'; genero: '{self.genero}'; uuid: '{self.uuid}';" \
-			f"data_nasc: {self.data_nasc}; altura: {self.altura}; peso: {self.peso};"
+		return f"{self.email},{self.genero},{self.uuid},{self.data_nasc},{self.altura},{self.peso}"
 
 	def __repr__(self) -> str:
 		return str(self)
