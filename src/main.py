@@ -1,70 +1,116 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os
 import time
+import argparse
 from datetime import datetime
+from os import path
+from pathlib import Path
 
 from sort.metodos_ordenacao import *
-from sort.verificador_ordenacao import lista_ord_cresc
 from usuario import Usuario, ComparadorUuid
 from util.csv_manipulador import convert_arq_usuarios, convert_usuarios_arq
 
 
-# TODO: Parser de argumentos via CLI
-def parse_args():
-	return
+def ler_args() -> argparse.Namespace:
+	parser = argparse.ArgumentParser()
+
+	def file_valid(caminho: str):
+
+		extensao = path.basename(caminho).split(".")[-1]
+		if not path.exists(caminho):
+			raise FileNotFoundError(
+				f"O caminho recebido não existe! Path: '{caminho}'."
+			)
+
+		elif not path.isfile(caminho):
+			raise FileNotFoundError(
+				f"O caminho deve pertencer a um arquivo! Path: {caminho}"
+			)
+
+		elif 'csv' not in path.basename(caminho).lower():
+			raise TypeError(
+				f"O tipo do arquivo de entrada deve ser CSV! Recebido: {extensao}"
+			)
+
+		return caminho
+
+	parser.add_argument(
+		"--alg", required=False,
+		choices=('heap', 'insert', 'intro', 'merge', 'quick', 'select', 'tim'),
+		help="Prefixo dos algorítimos a serem executados"
+	)
+
+	parser.add_argument(
+		"-i", required=True, type=file_valid,
+		help="Caminho e nome do arquivo CSV de entrada"
+	)
+
+	parser.add_argument(
+		"-o", required=True, type=Path,
+		help="Caminho e nome do arquivo ordenado de saída"
+	)
+
+	return parser.parse_args()
 
 
 def main():
-	path_dados = "../dados/"
-	arq_paths = [path_dados + filename for root, dirs, files in os.walk(path_dados)
-				 for filename in files]
+	args = ler_args()
 
-	algs: List[MetodoOrdenacao] = [
-		IntroSort, QuickSort, TimSort, MergeSort, HeapSort, InsertionSort,
-		SelectionSort]
+	algorit = args.alg
+	path_dados = args.i
+	path_saida = args.o
+
+	# TODO (duraes-antonio): encapsular + comentar
+	dic_algs = {
+		'heap': HeapSort, 'insert': InsertionSort, 'intro': IntroSort,
+		'merge': MergeSort, 'quick': QuickSort, 'select': SelectionSort,
+		'tim': TimSort
+	}
+
+	metodos_ord: List[MetodoOrdenacao]
+
+	# TODO (duraes-antonio): validar opção escolhida
+	if algorit is not None:
+		metodos_ord = [dic_algs[algorit]]
+
+	else:
+		metodos_ord = [dic_algs[key] for key in dic_algs]
 
 	# Para cada algoritmo na lista de métodos de ordenação
-	for alg in algs:
-		alg_ord: MetodoOrdenacao = alg
+	for alg_ord in metodos_ord:
 
-		# Para cada caminho de arquivo na lista de arquivos
-		for arq_path in arq_paths:
-			usuarios: List[Usuario] = convert_arq_usuarios(arq_path, ',', '%Y-%m-%d')
+		usuarios: List[Usuario] = convert_arq_usuarios(path_dados, ',', '%Y-%m-%d')
 
-			nome = f'{alg_ord.id}_{len(usuarios)}.csv'
-			arq_saida = open(nome, 'w')
-			arq_saida.write(f'i exec;duracao (ms);hora início;hora fim\n')
+		nome = f'{alg_ord.id}_{len(usuarios)}.csv'
+		arq_saida = open(nome, 'w')
+		arq_saida.write(f'i exec;duracao (ms);hora início;hora fim\n')
 
-			# Realize 10 execuções para cada caso
-			for i in range(1, 11):
+		# Realize 10 execuções para cada caso
+		for i in range(1):
+			# Copie a lista de entrada
+			lista = usuarios[:]
 
-				# Copie a lista de entrada
-				lista = usuarios[:]
+			# Começar contagem de tempo
+			data_ini = datetime.now()
+			crono_ini = time.time()
 
-				# Começar contagem de tempo
-				data_ini = datetime.now()
-				crono_ini = time.time()
+			# Chamar algorítimo de ordenação
+			alg_ord.ordenar(ComparadorUuid, lista)
 
-				# Chamar algorítimo de ordenação
-				alg_ord.ordenar(ComparadorUuid, lista)
+			# Finalizar contagem de tempo
+			crono_fim = time.time()
+			data_fim = datetime.now()
 
-				# Finalizar contagem de tempo
-				crono_fim = time.time()
-				data_fim = datetime.now()
+			crono_dif = crono_fim - crono_ini
+			crono_dif *= 1000
+			arq_saida.write(f'{i};{crono_dif};{data_ini};{data_fim}\n')
 
-				crono_dif = crono_fim - crono_ini
-				crono_dif *= 1000
-				arq_saida.write(f'{i};{crono_dif};{data_ini};{data_fim}\n')
+			# convert_usuarios_arq(f"arq_ordenado_{alg_ord.id}_{len(usuarios)}_{i}.csv", lista)
 
-				convert_usuarios_arq(f"arq_ordenado_{alg_ord.id}_{len(usuarios)}_{i}.csv", lista)
+			# Imprimir a duração e o número de registros ordenados
+			print('\n%s\t %d\t %.6f' % (alg_ord.id, len(lista), crono_dif))
 
-				# Imprimir a duração e o número de registros ordenados
-				print("ORD. CRESC.:", lista_ord_cresc(ComparadorUuid, lista))
-				print('\n%s\t %d\t %.6f' % (alg_ord.id, len(lista), crono_dif))
-
-			arq_saida.close()
-
+		arq_saida.close()
 
 	return 0
 
