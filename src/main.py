@@ -1,14 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import time
 import argparse
-from datetime import datetime
+import time
 from os import path
-from pathlib import Path
+from typing import Dict
 
+# Importação de funções e classes customizadas
+from pessoa import Pessoa, ComparadorUuid
 from sort.metodos_ordenacao import *
-from usuario import Usuario, ComparadorUuid
-from util.csv_manipulador import convert_arq_usuarios, convert_usuarios_arq
+from util.csv_manipulador import convert_arq_pessoas, convert_pessoas_arq
+
+dic_prefix_alg: Dict[str, MetodoOrdenacao] = {
+	'hea': HeapSort, 'ins': InsertionSort, 'int': IntroSort,
+	'mer': MergeSort, 'qui': QuickSort, 'sel': SelectionSort,
+	'tim': TimSort
+}
 
 
 def ler_args() -> argparse.Namespace:
@@ -34,9 +40,26 @@ def ler_args() -> argparse.Namespace:
 
 		return caminho
 
+	def dir_valid(caminho: str):
+
+		nome_dir = path.dirname(caminho)
+		extensao = path.basename(caminho).split(".")[-1]
+
+		if not path.exists(nome_dir):
+			raise FileNotFoundError(
+				f"O diretório de saída não existe! Path: '{caminho}'."
+			)
+
+		elif 'csv' not in path.basename(caminho).lower():
+			raise TypeError(
+				f"O tipo do arquivo de saída deve ser CSV! Recebido: {extensao}"
+			)
+
+		return caminho
+
 	parser.add_argument(
 		"--alg", required=False,
-		choices=('heap', 'insert', 'intro', 'merge', 'quick', 'select', 'tim'),
+		choices=tuple(dic_prefix_alg.keys()),
 		help="Prefixo dos algorítimos a serem executados"
 	)
 
@@ -46,7 +69,7 @@ def ler_args() -> argparse.Namespace:
 	)
 
 	parser.add_argument(
-		"-o", required=True, type=Path,
+		"-o", required=True, type=dir_valid,
 		help="Caminho e nome do arquivo ordenado de saída"
 	)
 
@@ -60,57 +83,48 @@ def main():
 	path_dados = args.i
 	path_saida = args.o
 
-	# TODO (duraes-antonio): encapsular + comentar
-	dic_algs = {
-		'heap': HeapSort, 'insert': InsertionSort, 'intro': IntroSort,
-		'merge': MergeSort, 'quick': QuickSort, 'select': SelectionSort,
-		'tim': TimSort
-	}
-
 	metodos_ord: List[MetodoOrdenacao]
 
 	# TODO (duraes-antonio): validar opção escolhida
 	if algorit is not None:
-		metodos_ord = [dic_algs[algorit]]
+		metodos_ord = [dic_prefix_alg[algorit]]
 
 	else:
-		metodos_ord = [dic_algs[key] for key in dic_algs]
+		metodos_ord = [dic_prefix_alg[key] for key in dic_prefix_alg]
+
+	if (len(metodos_ord) > 1):
+		nome_dir_saida = path.dirname(path_saida)
+		nome_arq_saida = path.basename(path_saida)
+		path_saida = path.join(nome_dir_saida, '{}_' + nome_arq_saida)
 
 	# Para cada algoritmo na lista de métodos de ordenação
 	for alg_ord in metodos_ord:
 
-		usuarios: List[Usuario] = convert_arq_usuarios(path_dados, ',', '%Y-%m-%d')
+		pessoas: List[Pessoa] = convert_arq_pessoas(path_dados, ',', '%Y-%m-%d')
 
-		nome = f'{alg_ord.id}_{len(usuarios)}.csv'
-		arq_saida = open(nome, 'w')
-		arq_saida.write(f'i exec;duracao (ms);hora início;hora fim\n')
+		# Copie a lista de entrada
+		lista = pessoas[:]
 
-		# Realize 10 execuções para cada caso
-		for i in range(1):
-			# Copie a lista de entrada
-			lista = usuarios[:]
+		# Começar contagem de tempo
+		crono_ini = time.time()
 
-			# Começar contagem de tempo
-			data_ini = datetime.now()
-			crono_ini = time.time()
+		# Chamar algorítimo de ordenação
+		alg_ord.ordenar(ComparadorUuid, lista)
 
-			# Chamar algorítimo de ordenação
-			alg_ord.ordenar(ComparadorUuid, lista)
+		# Finalizar contagem de tempo
+		crono_fim = time.time()
 
-			# Finalizar contagem de tempo
-			crono_fim = time.time()
-			data_fim = datetime.now()
+		crono_dif = crono_fim - crono_ini
+		crono_dif *= 1000
 
-			crono_dif = crono_fim - crono_ini
-			crono_dif *= 1000
-			arq_saida.write(f'{i};{crono_dif};{data_ini};{data_fim}\n')
+		if (len(metodos_ord) > 1):
+			convert_pessoas_arq(path_saida.format(alg_ord.id), lista)
 
-			# convert_usuarios_arq(f"arq_ordenado_{alg_ord.id}_{len(usuarios)}_{i}.csv", lista)
+		else:
+			convert_pessoas_arq(path_saida, lista)
 
-			# Imprimir a duração e o número de registros ordenados
-			print('\n%s\t %d\t %.6f' % (alg_ord.id, len(lista), crono_dif))
-
-		arq_saida.close()
+		# Imprimir a duração e o número de registros ordenados
+		print('\n%s\t %d\t %.6f' % (alg_ord.id, len(lista), crono_dif))
 
 	return 0
 
