@@ -1,3 +1,10 @@
+import pandas as pd
+import matplotlib
+import matplotlib.pyplot as plt
+from matplotlib.pyplot import figure
+import glob
+import re
+
 def monta_data_frame(algoritmo, delimitador=';', codificacao_arquivo='ISO-8859-1'):
     # path padrao
     path = '../../resultados/' + algoritmo
