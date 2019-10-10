@@ -5,7 +5,7 @@ from datetime import datetime
 from util.comparador import Comparador
 
 
-class Usuario():
+class Pessoa():
 
 	def __init__(
 			self, email: str, genero: str, id: str, data_nasc: datetime,
@@ -18,13 +18,13 @@ class Usuario():
 		self.peso = peso
 
 	def clone(self):
-		return Usuario(
+		return Pessoa(
 			self.email, self.genero, self.uuid, self.data_nasc, self.altura,
 			self.peso
 		)
 
 	def __str__(self) -> str:
-		return f"{self.email},{self.genero},{self.uuid},{self.data_nasc},{self.altura},{self.peso}"
+		return f"{self.email},{self.genero},{self.uuid},{self.data_nasc.date()},{self.altura},{self.peso}"
 
 	def __repr__(self) -> str:
 		return str(self)
@@ -45,77 +45,81 @@ class Usuario():
 		return self.uuid >= outro.uuid
 
 
-class ComparadorUuid(Comparador[Usuario]):
+class ComparadorUuid(Comparador[Pessoa]):
 
 	@staticmethod
-	def compararCom(usuario_1: Usuario, usuario_2: Usuario) -> int:
+	def compararCom(pessoa_1: Pessoa, pessoa_2: Pessoa) -> int:
 
 		result: int = 0
 
-		if (usuario_1.uuid > usuario_2.uuid):
+		if (pessoa_1.uuid > pessoa_2.uuid):
 			result = 1
 
-		elif (usuario_1.uuid < usuario_2.uuid):
+		elif (pessoa_1.uuid < pessoa_2.uuid):
 			result = -1
 
 		return result
 
-class ComparadorEmail(Comparador[Usuario]):
+
+class ComparadorEmail(Comparador[Pessoa]):
 
 	@staticmethod
-	def compararCom(usuario_1: Usuario, usuario_2: Usuario) -> int:
+	def compararCom(pessoa_1: Pessoa, pessoa_2: Pessoa) -> int:
 
 		result: int = 0
 
-		if (usuario_1.email > usuario_2.email):
+		if (pessoa_1.email > pessoa_2.email):
 			result = 1
 
-		elif (usuario_1.email < usuario_2.email):
+		elif (pessoa_1.email < pessoa_2.email):
 			result = -1
 
 		return result
 
-class ComparadorDataNasc(Comparador[Usuario]):
+
+class ComparadorDataNasc(Comparador[Pessoa]):
 
 	@staticmethod
-	def compararCom(usuario_1: Usuario, usuario_2: Usuario) -> int:
+	def compararCom(pessoa_1: Pessoa, pessoa_2: Pessoa) -> int:
 
 		result: int = 0
 
-		if (usuario_1.data_nasc > usuario_2.data_nasc):
+		if (pessoa_1.data_nasc > pessoa_2.data_nasc):
 			result = 1
 
-		elif (usuario_1.data_nasc < usuario_2.data_nasc):
+		elif (pessoa_1.data_nasc < pessoa_2.data_nasc):
 			result = -1
 
 		return result
 
-class ComparadorAltura(Comparador[Usuario]):
+
+class ComparadorAltura(Comparador[Pessoa]):
 
 	@staticmethod
-	def compararCom(usuario_1: Usuario, usuario_2: Usuario) -> int:
+	def compararCom(pessoa_1: Pessoa, pessoa_2: Pessoa) -> int:
 
 		result: int = 0
 
-		if (usuario_1.altura > usuario_2.altura):
+		if (pessoa_1.altura > pessoa_2.altura):
 			result = 1
 
-		elif (usuario_1.altura < usuario_2.altura):
+		elif (pessoa_1.altura < pessoa_2.altura):
 			result = -1
 
 		return result
 
-class ComparadorPeso(Comparador[Usuario]):
+
+class ComparadorPeso(Comparador[Pessoa]):
 
 	@staticmethod
-	def compararCom(usuario_1: Usuario, usuario_2: Usuario) -> int:
+	def compararCom(pessoa_1: Pessoa, pessoa_2: Pessoa) -> int:
 
 		result: int = 0
 
-		if (usuario_1.peso > usuario_2.peso):
+		if (pessoa_1.peso > pessoa_2.peso):
 			result = 1
 
-		elif (usuario_1.peso < usuario_2.peso):
+		elif (pessoa_1.peso < pessoa_2.peso):
 			result = -1
 
 		return result
