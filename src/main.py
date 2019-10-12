@@ -6,7 +6,7 @@ from os import path
 from typing import Dict
 
 # Importação de funções e classes customizadas
-from pessoa import Pessoa, ComparadorUuid
+from pessoa import Pessoa, ComparadorUid
 from sort.metodos_ordenacao import *
 from util.csv_manipulador import convert_arq_pessoas, convert_pessoas_arq
 
@@ -85,7 +85,6 @@ def main():
 
 	metodos_ord: List[MetodoOrdenacao]
 
-	# TODO (duraes-antonio): validar opção escolhida
 	if algorit is not None:
 		metodos_ord = [dic_prefix_alg[algorit]]
 
@@ -109,7 +108,7 @@ def main():
 		crono_ini = time.time()
 
 		# Chamar algorítimo de ordenação
-		alg_ord.ordenar(ComparadorUuid, lista)
+		alg_ord.ordenar(ComparadorUid, lista)
 
 		# Finalizar contagem de tempo
 		crono_fim = time.time()

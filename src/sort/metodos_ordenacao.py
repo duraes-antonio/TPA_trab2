@@ -232,19 +232,28 @@ class IntroSort(MetodoOrdenacao):
 		return lista
 
 	@staticmethod
-	def __mediana_3(lista: List[T], i_inic: int, i_meio: int, i_fim: int) -> int:
+	def __mediana_3(
+			lista: List[T], cmp: Comparador[T], i_inic: int, i_meio: int,
+			i_fim: int) -> int:
 
 		item_1 = lista[i_inic]
 		item_2 = lista[i_meio]
 		item_3 = lista[i_fim]
 
-		if item_3 >= item_1 >= item_2 or item_3 <= item_1 <= item_2:
+		cmp_i3_i1 = cmp.compararCom(item_3, item_1)
+		cmp_i1_i2 = cmp.compararCom(item_1, item_2)
+		cmp_i3_i2 = cmp.compararCom(item_3, item_2)
+
+		# se item_3 >= item_1 >= item_2 OU item_3 <= item_1 <= item_2:
+		if (cmp_i3_i1 > -1 and cmp_i1_i2 > -1) or (cmp_i3_i1 < 1 and cmp_i1_i2 < 1):
 			return i_inic
 
-		if item_3 >= item_2 >= item_1 or item_3 <= item_2 <= item_1:
+		# se item_3 >= item_2 >= item_1 or item_3 <= item_2 <= item_1:
+		if (cmp_i3_i2 > -1 and cmp_i1_i2 < 1) or (cmp_i3_i2 < 1 and cmp_i1_i2 > -1):
 			return i_meio
 
-		if item_1 >= item_3 >= item_2 or item_1 <= item_3 <= item_2:
+		# se item_1 >= item_3 >= item_2 or item_1 <= item_3 <= item_2:
+		if (cmp_i3_i1 < 1 and cmp_i3_i2 > -1) or (cmp_i3_i1 > -1 and cmp_i3_i2 < 1):
 			return i_fim
 
 	@staticmethod
@@ -262,7 +271,7 @@ class IntroSort(MetodoOrdenacao):
 
 		else:
 			# TODO: citar e referenciar artigo lido
-			p = IntroSort.__mediana_3(lista, i_ini, i_ini + tam // 2, i_fim)
+			p = IntroSort.__mediana_3(lista, cmp, i_ini, i_ini + tam // 2, i_fim)
 			lista[p], lista[i_fim] = lista[i_fim], lista[p]
 
 			piv = particao(lista, cmp, i_ini, i_fim)

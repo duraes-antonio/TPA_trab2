@@ -12,50 +12,50 @@ class Pessoa():
 			altura: float, peso: float):
 		self.email = email
 		self.genero = genero
-		self.uuid = id
+		self.uid = id
 		self.data_nasc = data_nasc
 		self.altura = altura
 		self.peso = peso
 
 	def clone(self):
 		return Pessoa(
-			self.email, self.genero, self.uuid, self.data_nasc, self.altura,
+			self.email, self.genero, self.uid, self.data_nasc, self.altura,
 			self.peso
 		)
 
 	def __str__(self) -> str:
-		return f"{self.email},{self.genero},{self.uuid},{self.data_nasc.date()},{self.altura},{self.peso}"
+		return f"{self.email},{self.genero},{self.uid},{self.data_nasc.date()},{self.altura},{self.peso}"
 
 	def __repr__(self) -> str:
 		return str(self)
 
 	def __eq__(self, outro):
-		return self.uuid == outro.uuid
+		return self.uid == outro.uid
 
 	def __lt__(self, outro):
-		return self.uuid < outro.uuid
+		return self.uid < outro.uid
 
 	def __le__(self, outro):
-		return self.uuid <= outro.uuid
+		return self.uid <= outro.uid
 
 	def __gt__(self, outro):
-		return self.uuid > outro.uuid
+		return self.uid > outro.uid
 
 	def __ge__(self, outro):
-		return self.uuid >= outro.uuid
+		return self.uid >= outro.uid
 
 
-class ComparadorUuid(Comparador[Pessoa]):
+class ComparadorUid(Comparador[Pessoa]):
 
 	@staticmethod
 	def compararCom(pessoa_1: Pessoa, pessoa_2: Pessoa) -> int:
 
 		result: int = 0
 
-		if (pessoa_1.uuid > pessoa_2.uuid):
+		if (pessoa_1.uid > pessoa_2.uid):
 			result = 1
 
-		elif (pessoa_1.uuid < pessoa_2.uuid):
+		elif (pessoa_1.uid < pessoa_2.uid):
 			result = -1
 
 		return result
