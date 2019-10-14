@@ -1,8 +1,5 @@
-# TPA_trab2
-Repositório dedicado ao 2º trabalho da disciplina de Técnicas de Programação Avançada do cursos de Sistemas de Informação do IFES (Campus Serra).)
-
-## PARA O GRUPO
-_As tarefas a serem cumpridas encontram-se como ISSUES, aqui mesmo no repositório. Discordância, dúvidas, sugestões ou descontração, favor, conversarmos._
+# Técnicas de Programação Avançada - 2º Trabalho (Métodos de Ordenação e Estatísticas de Ordem)
+Repositório dedicado ao 2º trabalho da disciplina de Técnicas de Programação Avançada do cursos de Sistemas de Informação do IFES (Campus Serra).
 
 ## 1. Integrantes
 - Antônio Carlos Durães da Silva: <i>antoniocds1996@gmail.com</i>
