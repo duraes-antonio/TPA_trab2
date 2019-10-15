@@ -55,7 +55,7 @@
 
 \section{Introdução}
 
-Este  documento refere-se aos testes de desempenho dos algoritmos requeridos para o Trabalho de Ordenação e Estatísticas de Ordem da disciplina de Técnicas de Programação Avançada.
+Este documento refere-se aos testes de desempenho dos algoritmos requeridos para o Trabalho de Ordenação e Estatísticas de Ordem da disciplina de Técnicas de Programação Avançada.
 \begin{comment}
 \section{Enunciado}
 
@@ -101,7 +101,7 @@ Os arquivos de dados estarão no formato CSV e cada linha será composta pelos s
 
 \section{Implementação do Trabalho}
 
-O projeto se encontra na pasta SRC e está dividido em 2 pastas util e sort. sendo esse os principais arquivos para o trabalho:
+O projeto encontra-se na pasta SRC e está dividido em duas pastas, \say{util} e \say{sort}. Sendo esse os principais arquivos para o trabalho:
 
 \begin{itemize}
 	\item main.py – Contém o código para o programa principal (Main) e se encontra na raiz da pasta \say{src}. É responsável por conter a leitura, validação e tratamento de argumentos oriundos da linha de comando. Coordena qual algoritmo será chamado de acordo com os argumentos recebidos.
@@ -112,7 +112,7 @@ O projeto se encontra na pasta SRC e está dividido em 2 pastas util e sort. sen
 	
 	\item verificador\_ordenacao.py – Contém a implementação de métodos responsáveis por verificar se uma determinada lista está ordenada, crescente ou decrescentemente. Encontra-se dentro da pasta \say{sort}.
 	
-	\item comparador.py - Classe que armazena uma função de comparação generica, tal função compara dois objetos de mesmo tipo, de acordo com um atributo ou um conjunto deles. Encontra-se na pasta \say{util}.
+	\item comparador.py - Classe que armazena uma função de comparação genérica, tal função compara dois objetos de mesmo tipo, de acordo com um atributo ou um conjunto deles. Encontra-se na pasta \say{util}.
 	
 	\item csv\_manipulador.py - Contém a implementação de métodos responsáveis pela manipulação e criação dos arquivos de tipo \textbf{csv}. Converte um objeto Pessoa em um arquivo CSV e vice-versa. Encontra-se dentro da pasta \say{util}.
 	
@@ -120,27 +120,27 @@ O projeto se encontra na pasta SRC e está dividido em 2 pastas util e sort. sen
 \end{itemize}
 
 \subsection{Programa Principal}
-A função principal é responsável por coordenar as chamadas às funções que recebem e validam os argumentos de entrada por linha de comando, que abre o arquivo de entrada, realiza sua leitura e conversão das linhas em objetos do tipo Pessoa; que inicia e finaliza a contagem de tempo, e por identificar se apenas um e qual algoritmo de ordenção será chamado ou se todos serão executados.
+A função principal é responsável por coordenar as chamadas às funções que recebem e validam os argumentos de entrada por linha de comando, que abre o arquivo de entrada, realiza sua leitura e conversão das linhas em objetos do tipo Pessoa; que inicia e finaliza a contagem de tempo, e por identificar se apenas um e qual algoritmo de ordenação será chamado ou se todos serão executados.
 
-Ao final de cada execução com êxito, a aplicação principal imprime o algoritmo utilizado, a quantidade de dados ordenados, a duração da ordenação e chama a função responsável por conveter a lista ordenada em um novo CSV para o caminho de saída recebido via argumento.
+Ao final de cada execução com êxito, a aplicação principal imprime o algoritmo utilizado, a quantidade de dados ordenados, a duração da ordenação e chama a função responsável por converter a lista ordenada em um novo CSV para o caminho de saída recebido via argumento.
 
 \subsection{Modelagem de Dados}
 Embora, por uma questão de produtividade e praticidade o grupo tenha escolhido a linguagem Python, de tipagem fraca e multiparadigma, a modelagem teve como foco principal o paradigma Orientado a Objetos, a fim de ter um código mais modularizado, de fácil manutenção e compreensão por todos integrantes da equipe. Dessa forma, foram criadas classes para os três componentes principais do trabalho: \textbf{Pessoa} (para representar os dados de entrada), \textbf{Comparador} e \textbf{Método de Ordenação}.
 
 \subsubsection{Comparador}
-A fim de criar um modelo genérico para comparar dois objetos por uma ou mais propriedades, criou-se uma classe abstrata, que quando extendida pode representar um comparador para qualquer tipo de dado. Esta classe contém apenas um método, o \say{compararCom}, que recebe dois objetos de mesmo tipo e retorna:
+A fim de criar um modelo genérico para comparar dois objetos por uma ou mais propriedades, criou-se uma classe abstrata, que quando estendida pode representar um comparador para qualquer tipo de dado. Esta classe contém apenas um método, o \say{compararCom}, que recebe dois objetos de mesmo tipo e retorna:
 \begin{itemize}
-    \item \textbf{-1}: Se o primeiro item possuir a chave anterior a do segundo
-    \item \textbf{0}: Se o primeiro item possuir a chave igual a do segundo
-    \item \textbf{1}: Se o primeiro item possuir a chave posterior a do segundo
+    \item \textbf{-1}: Se o primeiro item possuir a chave anterior à do segundo
+    \item \textbf{0}: Se o primeiro item possuir a chave igual à do segundo
+    \item \textbf{1}: Se o primeiro item possuir a chave posterior à do segundo
 \end{itemize}
 
 
 \subsection{Algoritmos de Ordenação}
-Para este trabalho de Ordenação e Estatísticas de Ordem foi pedido a implementação de sete algoritmos de ordenação diferentes.  A saber:  ordenação por seleção (\textit{selection sort}), ordenação por inserção (\textit{insertion sort}), \textit{merge sort}, \textit{quicksort}, \textit{heapsort}, \textit{timsort} e \textit{introsort}. Os últimos 2 sendo escolhidos pelo grupo do trabalho.
+Para este trabalho de Ordenação e Estatísticas de Ordem foi pedido a implementação de sete algoritmos de ordenação diferentes. A saber: ordenação por seleção (\textit{Selection Sort}), ordenação por inserção (\textit{Insertion Sort}), \textit{Merge Sort}, \textit{Quick Sort}, \textit{Heap Sort}, \textit{Tim Sort} e \textit{Intro Sort}. Os últimos 2 sendo escolhidos pelo grupo do trabalho.
 
 
-\subsubsection{Algoritmo SelectionSort}
+\subsubsection{Algoritmo Selection Sort}
 Um dos métodos de ordenação de implementação mais simples e fácil compreensão, a ordenação por seleção trabalha com a ideia de obter-se os menores elementos e inseri-los nas primeiras posições da lista de elementos.
 
 De forma mais precisa, quanto menor o valor do elemento, mais à esquerda da lista ele ficará. Dessa maneira, busque o menor elemento e troque-o com o primeiro (início da lista à esquerda) da lista; busque o segundo menor item e troque-o com o elemento da segunda posição da lista; busque o i-ésimo menor elemento e troque-o com o i-ésimo elemento da lista \cite{knuth}.
@@ -173,7 +173,7 @@ def __selection_sort(
    else:
       fim += 1
 
-   # Para cada índice do ínicio até o fim da lista
+   # Para cada índice do início até o fim da lista
    for i in range(inic, fim):
       ind_min = min_indice(lista, i, fim - 1)
 
@@ -185,14 +185,14 @@ def __selection_sort(
 \caption{\footnotesize{Implementação do algoritmo Selection Sort}}
 \end{listing}
 
-\subsubsection{Algoritmo InsertionSort}
-De complexicidade semelhante ao algoritmo anterior, a ordenação por inserção também possui como características uma rápida implementação e mecanismo simples de compreensão.
+\subsubsection{Algoritmo Insertion Sort}
+De complexidade semelhante ao algoritmo anterior, a ordenação por inserção também possui como características uma rápida implementação e mecanismo simples de compreensão.
 
-Seu funcionamento se resume em selecionar um \textbf{elemento A} na lista e ir trocando de posição com elementos de índices anteriores, enquanto A possuir valor inferior ao do i-ésimo item anterior ou até chegar à posição mais a esquerda da lista (início).
+Seu funcionamento se resume em selecionar um \textbf{elemento A} na lista e ir trocando de posição com elementos de índices anteriores, enquanto A possuir valor inferior ao do i-ésimo item anterior ou até chegar à posição mais à esquerda da lista (início).
 
 Cormem\cite{cormem} (2002, p. 18-20.), aponta em sua obra que este algoritmo, em seu pior caso, tem complexidade quadrática, e que seu caso médio também pode atingir tal grandeza de operações.
 
-A implementação abaixo teve como ponto de partida e base, o pseudo-código descrito na obra de Cormem.
+A implementação abaixo teve como ponto de partida e base, o pseudocódigo descrito na obra de Cormem.
 
 \begin{listing}[H]
 \begin{minted}[linenos,fontsize=\small]{Python}
@@ -224,12 +224,12 @@ def __insertion_sort(
 \caption{\footnotesize{Implementação do algoritmo Insertion Sort}}
 \end{listing}
 
-\subsubsection{Algoritmo MergeSort}
-O merge sort é um dos algoritmos que usufrui do método \say{dividir para conquistar}, abordagem que é caracterizada por aproveitar-se da divisibilidade do problema. Algoritmos desse grupo dividem a massa de dados em conjuntos menores, resolvem os sub-problemas e posteriormente agrupam suas soluções para compor a solução do problema único e inicial (Cormem\cite{cormem}, 2002, p. 21).
+\subsubsection{Algoritmo Merge Sort}
+O Merge Sort é um dos algoritmos que usufrui do método \say{dividir para conquistar}, abordagem que é caracterizada por aproveitar-se da divisibilidade do problema. Algoritmos desse grupo dividem a massa de dados em conjuntos menores, resolvem os subproblemas e posteriormente agrupam suas soluções para compor a solução do problema único e inicial (Cormem\cite{cormem}, 2002, p. 21).
 
-É comum encontrar esse método de ordenação sendo chamado de ordenação por mesclagem, mistura ou intercalação, esse último referente à forma como o algoritmo organiza e mescla as soluções dos sub-problemas.
+É comum encontrar esse método de ordenação sendo chamado de ordenação por mesclagem, mistura ou intercalação, esse último referente à forma como o algoritmo organiza e mescla as soluções dos subproblemas.
 
-A função \say{merge sort} abaixo divide a lista de dados ao meio, depois divide cada sublista ao meio e passa cada uma como parâmetro para chamada recursiva a si (linhas 4 a 8). Essa divisão continua ao meio é realizada até que cada sublista tenha tamanho um, ou seja, atingiu sua posição final (linha 2), nesse ponto (linha 9), a função \say{merge} é chamada para intercalar as sublistas.
+A função \say{merge sort} abaixo divide a lista de dados ao meio, depois divide cada sublista ao meio e passa cada uma como parâmetro para chamada recursiva a si (linhas 4 a 8). Essa divisão contínua ao meio é realizada até que cada sublista tenha tamanho um, ou seja, atingiu sua posição final (linha 2), nesse ponto (linha 9), a função \say{merge} é chamada para intercalar as sublistas.
 
 O grupo optou com externalizar a função merge, pois notou que ela seria usada por outros algoritmos.
 
@@ -301,7 +301,7 @@ def merge(
 \caption{\footnotesize{Implementação da função Merge}}
 \end{listing}
 
-\subsubsection{Algoritmo HeapSort}
+\subsubsection{Algoritmo Heap Sort}
 
 Segundo Knuth (p. 144), o algoritmo de ordenação por monte (heap) foi descoberto pelo cientista da computação John William Joseph Williams, em meados da década de 60.
 
@@ -309,7 +309,7 @@ Este algoritmo tem como sua principal estrutura um monte. Por se tratar de uma e
 
 O grupo decidiu simular a estrutura de uma árvore binária com a própria lista de dados. As linhas 6 e 7 são responsáveis por criar a árvore ordenada. A variável \textbf{i} inicia com o índice que divide a lista ao meio (quando ímpar), devido a construção da árvore utilizar o índice 2$\times{}$i + 1 (linha 4 do heapify) para definir quem será o nó filho da esquerda ou direita da raiz. 
 
-Após criar a árvore ordenada, tem-se que a raiz da árvore (último elemento da lista) armazena o elemento de maior valor, dessa forma, a função heapsort percorre toda a lista, do fim para o início, substitui o primeiro elemento da lista com o elemento de índice \textbf{i} e reconstroi a árvore sem o elemento raiz. Sendo assim, na primeira iteração, o maior elemento estará na primeira posição, na segunda iteração o segundo maior elemento estará na primeira posição e o maior na última, esse processo segue até que toda árvore esteja ordenada.
+Após criar a árvore ordenada, tem-se que a raiz da árvore (último elemento da lista) armazena o elemento de maior valor, dessa forma, a função heapsort percorre toda a lista, do fim para o início, substitui o primeiro elemento da lista com o elemento de índice \textbf{i} e reconstrói a árvore sem o elemento raiz. Sendo assim, na primeira iteração, o maior elemento estará na primeira posição, na segunda iteração o segundo maior elemento estará na primeira posição e o maior na última, esse processo segue até que toda árvore esteja ordenada.
 
 \begin{listing}[H]
 \begin{minted}[linenos,fontsize=\small]{Python}
@@ -356,10 +356,10 @@ def __heapsort(lista: List[T], comparador: Comparador[T]) -> List[T]:
 \caption{\footnotesize{Implementação do algoritmo Heap Sort}}
 \end{listing}
 
-\subsubsection{Algoritmo QuickSort}
+\subsubsection{Algoritmo Quick Sort}
 Descoberto por Charles Antony Richard Hoare, em 1961 \cite{hoare}, o algoritmo Quick Sort assemelha-se ao Merge e ao Heap Sort em alguns aspectos, como ser de natureza divisão e conquista, possui trechos recursivos (nesta implementação, também há versões iterativas, menos comuns) e complexidade.
 
-O quick tem como essência um método auxiliar chamado de partição ou particionador. A função \say{partição} recebe a lista, um comparador, um índice de início e um de fim (determinam o espaço de verificação e ordenação).
+O Quick tem como essência um método auxiliar chamado de partição ou particionador. A função \say{partição} recebe a lista, um comparador, um índice de início e um de fim (determinam o espaço de verificação e ordenação).
 
 A ideia principal do algoritmo é eleger um elemento da lista como pivô e organizar todos itens menores que ele à sua esquerda e todos valores superiores à sua direita na lista.
 
@@ -401,17 +401,17 @@ def particao(
 \end{listing}
 
 
-\subsubsection{Algoritmo IntroSort}
+\subsubsection{Algoritmo Intro Sort}
 
-O intro ou introspective sort é um algoritmo híbrido que mescla os métodos base quick sort e heap sort\cite{musser}. É possível encontrar implementações que englobam um tericeiro algoritmo, geralmente adicionado para tratar conjunto de dados pequenos (menos que cem elementos).
+O Intro ou Introspective Sort é um algoritmo híbrido que mescla os métodos base Quick Sort e Heap Sort\cite{musser}. É possível encontrar implementações que englobam um terceiro algoritmo, geralmente adicionado para tratar conjunto de dados pequenos (menos que cem elementos).
 
-Neste caso, optou-se por incluir o insertion sort como algoritmo para conjunto de até 32 elementos.
+Neste caso, optou-se por incluir o Insertion Sort como algoritmo para conjunto de até 32 elementos.
 
 A função Intro Sort recebe a lista a ser ordenada, um objeto comparador, um índice de início e de fim, e o número máximo de recursão desejado.
 
 Por englobar o método Insertion, define-se um número máximo de elementos para aplicá-lo, tal número não deve ser muito grande, pois perde o melhor artifício da ordenação por inserção, nem pode ser muito pequeno, pois aproxima-se de uma ordenação de um único elemento, podendo gerar muitas chamadas adicionais (considerando que o método é recursivo). O grupo escolheu o tamanho máximo de 32 elementos.
 
-A quantidade de níveis de recursão é definida por $\boldsymbol{lg n}$, ela é responsável por sinalizar quando o intro deve para de efetuar chamadas para si e começar a invocar o método heap sort (linhas 9 e 10).
+A quantidade de níveis de recursão é definida por $\boldsymbol{lg n}$, ela é responsável por sinalizar quando o Intro deve para de efetuar chamadas para si e começar a invocar o método Heap Sort (linhas 9 e 10).
 
 Na linha 13, uma função auxiliar é chamada para verificar qual elemento entre o de índice inicial, índice central e índice final, é o item mediano entre os três. Este método é citado por Knuth (p. 122) como uma das formas para realizar uma troca de elementos a fim de reduzir o número de comparações.
 
@@ -471,10 +471,10 @@ def __mediana_3(
 \caption{\footnotesize{Implementação da função de Mediana}}
 \end{listing}
 
-\subsubsection{Algoritmo TimSort}
-Descoberto por Tim Peter, o algoritmo que leva seu nome é um método híbrido entre o heap sort e o insertion sort. Tim, desenvolveu o método, a princípio para Python, hoje o algoritmo já integra a linguagem Java, o sistema operacional Android e muitos outros softwares \cite{timsort}.
+\subsubsection{Algoritmo Tim Sort}
+Descoberto por Tim Peter, o algoritmo que leva seu nome é um método híbrido entre o Heap e o Insertion Sort. Tim, desenvolveu o método, a princípio para Python, hoje o algoritmo já integra a linguagem Java, o sistema operacional Android e muitos outros softwares \cite{timsort}.
 
-O algoritmo apresenta o conceito de run, que é um subconjunto de tamanho pré-estabelecido. Uma lista de entrada pode ser composta por um ou mais runs. O tamanho de cada run varia, mas por usar a ordenação por inserção, tamanhos entre 16 e 128 elementos são recomendados.
+O algoritmo apresenta o conceito de run, que é um subconjunto de tamanho preestabelecido. Uma lista de entrada pode ser composta por um ou mais runs. O tamanho de cada run varia, mas por usar a ordenação por inserção, tamanhos entre 16 e 128 elementos são recomendados.
 
 Tim partiu da premissa que dentro de um conjunto de dados, há pequenos subconjuntos já ordenados. Após realizar a divisão dessas sublistas, basta ordenar cada uma (linhas 7 a 9) e ordená-las por intercalação ou mesclá-las (merge) para unificar seus elementos na lista final (linhas 19 a 23).
 
@@ -533,9 +533,10 @@ O grupo notou algumas peculiaridades de cada algoritmo a medida que o número de
     \includesvg[width = 510pt]{resultados/selectionsort/SELECTIONSORT.svg}
     \caption{Gráfico de desempenho do algoritmo Selection Sort}
     \label{mapaSelect}
+    
 \end{figure}
 
-O algoritmo começa a apresentar desvio considerável próximo a 25 mil registros. Neste caso, uma execução durou 113181 milessegundos, o que resultou em um desvio aproximado 22.7906\% relação à média (92174). Todas outras execuções para esse conjunto de dados duraram entre 87 e 92 mil milessegundos.
+O algoritmo começa a apresentar desvio considerável próximo a 25 mil registros. Neste caso, uma execução durou 113181 milissegundos, o que resultou em um desvio aproximado 22.7906\% relação à média (92174). Todas outras execuções para esse conjunto de dados duraram entre 87 e 92 mil milissegundos.
 
 Para 50 mil registros, o desvio se mantém, enquanto a média ficou em 413 mil ms, duas execuções ultrapassaram 450 mil ms, a máxima foi de 461 mil ms, apresentando desvio aproximado a 11.5556\%. 
 
@@ -554,7 +555,7 @@ Com 75 mil registros, o algoritmo apresenta baixa variação, inferior a 1\%.
 
 De todos os algoritmos, este foi o que apresentou menor variação entre as execuções, com suas durações mínima e máxima bem próximas à média.
 
-Um ponto de destaque é o formato de sua linha, dando à impressão, que se houvesse uma continuação da bateria de testes, sua curva tenderia ao formato de uma parabola, representando graficamente sua complexidade.
+Um ponto de destaque é o formato de sua linha, dando à impressão, que se houvesse uma continuação da bateria de testes, sua curva tenderia ao formato da metade direita de uma parabola, representando graficamente sua complexidade.
 
 \subsubsection{Análise gráfica - Merge Sort}
 \begin{figure}[H]
@@ -602,7 +603,8 @@ Seu maior desvio foi com dois e meio milhões de registros, onde seu valor máxi
 
 Já com cinco milhões de dados, o algoritmo apresentou desvio de 12.7336\% de sua máxima (75996 ms) em relação a média (67412 ms). Todas outras execuções apresentaram desvio inferior a 5.39\%.
 
-Com o maior arquivo, o quick sort estabiliza-se apresentando no máximo 4.5632\% de variação.
+Com o maior arquivo, o Quick Sort estabiliza-se apresentando no máximo 4.5632\% de variação.
+
 
 \subsubsection{Análise gráfica - Tim Sort}
 \begin{figure}[H]
@@ -613,7 +615,11 @@ Com o maior arquivo, o quick sort estabiliza-se apresentando no máximo 4.5632\%
     \label{mapaSelect}
 \end{figure}
 
-...
+Com anomalias semelhantes às do Quick Sort durante todo o gráfico, o Tim Sort apresenta desvio considerável durante e após o processamento de 2.5 milhões de registros, em que sua média é de 38786.6743 ms, e seu maior desvio é de 19.3750\%, devido uma execução com duração aproximada de 46301.6028 ms.
+
+Sua média com cinco milhões de registros é de 79972.7381 ms, seu maior desvio é de aproximadamente 18.1374\%, ocasionado por uma execução de 94477.7793 ms. Com exceção dessa execução e outra desviante (86958.6570 ms), todas outras oito apresentaram desvio inferior a 4.10\% da média.
+
+Aos ordenar a massa com 7.5 milhões de dados, o algoritmo aparenta tendência à estabilização, considerando que nove das dez execuções não atingiram 2.5\% de desvio em relação à média. A única execução desviante foi a quarta, que tomou 125314.3386 ms, variando 7.7341\% da duração da média.
 
 \subsubsection{Análise gráfica - Intro Sort}
 \begin{figure}[H]
@@ -624,10 +630,23 @@ Com o maior arquivo, o quick sort estabiliza-se apresentando no máximo 4.5632\%
     \label{mapaSelect}
 \end{figure}
 
+
 \subsection{Análise entre os Algoritmos}
 Considerando que os 24 arquivos de dados possuem grandezas distintas (dezena, centena, milhar, milhão) em relação ao número de registros, o grupo optou por trabalhar cada gráfico abaixo com os 4 arquivos de mesmo unidade. Por exemplo, um gráfico apenas para tratar dezenas (10, 25, 50 e 75), um para centenas, assim por diante.
 
 O procedimento acima foi realizado para garantir melhor visibilidade dos gráficos e das variações dos algoritmos, por menor que forem.
+
+A ~\autoref{tabela_media_algs}, logo abaixo, apresenta média de todas execuções para cada algoritmo e em cada conjunto de dados. Essa tabela é a base para as constatações paresentadas nos gráficos posteriores.
+
+\begin{table}[H]
+    
+    \scalebox{0.8}
+    {\csvautotabular[separator=semicolon]{resultados/todos_algoritmos/media_dos_algoritmos_4_casas.csv}}
+    
+    \caption{Tabela com a duração média de todos algoritmos}
+    \label{tabela_media_algs}
+
+\end{table}
 
 \subsubsection{Número de registros: 10 a 75}
 
@@ -648,19 +667,19 @@ Com arquivos de 100 a 750 registros, no gráfico abaixo é possível ver que:
 
 \begin{itemize}
     \item
-    Os piores algoritmos, como já esperado, são os de ordem quadrática, selection e insertion, respectivamente
+    Os piores algoritmos, como já esperado, são os de ordem quadrática, Selection e Insertion, respectivamente
     
     \item
-    Com cem registros, os melhores algoritmos são: heap, merge, tim e intro sort
+    Com cem registros, os melhores algoritmos são: Heap, Merge, Tim e Intro Sort
     
     \item
-    Com 250 registros, o quick sort passa a ser o algoritmo mais rápido para todo o gráfico
+    Com 250 registros, o Quick Sort passa a ser o algoritmo mais rápido para todo o gráfico
     
     \item
-    A partir de 500 registros, o heap sort passa a apresentar o pior desempenho entre os 5 melhores; o merge sort compete com o intro sort; sendo o quick e o tim sort, os melhores
+    A partir de 500 registros, o Heap Sort passa a apresentar o pior desempenho entre os 5 melhores; o Merge Sort compete com o Intro Sort; sendo o Quick e o Tim Sort, os melhores
     
     \item
-    No último arquivo, com 750 registros, os três mais rápidos são: quick, tim e intro sort, respectivamente
+    No último arquivo, com 750 registros, os três mais rápidos são: Quick, Tim e Intro Sort, respectivamente
     
 \end{itemize}
 
@@ -676,16 +695,16 @@ Com arquivos de 100 a 750 registros, no gráfico abaixo é possível ver que:
 Após atingir a ordem de milhar, observa-se que:
 \begin{itemize}
     \item
-    O insertion e o selection sort se mantém os menos performáticos. Os cinco melhores algoritmos aproximam do tempo de duração zero.
+    O Insertion e o Selection Sort se mantém os menos performáticos. Os cinco melhores algoritmos aproximam do tempo de duração zero.
     
     \item
-    Com mil registros, tim, quick e intro ordenam os dados em cerca de 3 milessegundos, enquanto que o merge o faz em cerca de 6.2 ms e o heap, em 7.8
+    Com mil registros, Tim, Quick e Intro ordenam os dados em cerca de 3 milissegundos, enquanto que o Merge o faz em cerca de 6.2 ms e o Heap, em 7.8
     
     \item
-    Com 2500, os três algoritmos mais rápidos são quicksort (14.05 ms), introsort (17.33 ms) e timsort (20.3 ms)
+    Com 2500, os três algoritmos mais rápidos são: Quick (14.05 ms), Intro (17.33 ms) e Tim Sort (20.3 ms)
 
     \item
-    Ao atingir os 7500 registros, os três melhores permanecem sendo intro (56.24 ms), quick (64,04) e tim (67.16). Insertion sort tem sua duração em milissegundos aproximando-se do número de registros, enquanto selection já ultrapassa o tempo de 1 milessegundo por registro.
+    Ao atingir os 7500 registros, os três melhores permanecem sendo Intro (56.24 ms), Quick (64,04) e Tim (67.16). Insertion Sort tem sua duração em milissegundos aproximando-se do número de registros, enquanto o Selection já ultrapassa o tempo de 1 milissegundo por registro.
 
 
 \end{itemize}
@@ -702,18 +721,18 @@ Após atingir a ordem de milhar, observa-se que:
 No gráfico abaixo, com dezenas de milhares de registros, temos que:
 \begin{itemize}
     \item
-    Selection e insertion sort começam extremamente próximos. Para 75 mil registros, o insertion sort (910683 ms) já leva em média 12.14 ms por registro e selection sort (899257), 11.99 ms
+    Selection e Insertion Sort começam extremamente próximos. Para 75 mil registros, o Insertion Sort (910683 ms) já leva em média 12.14 ms por registro e Selection Sort (899257), 11.99 ms
     
     \item
     Graficamente, é quase impossível distinguir qualquer dos cinco algoritmos melhores
     
     \item
-    Intro sort consegue o posto de mais rápido durante todas execuções (750 ms para 75 mil de registros) e arquivos, seguido pelo quick sort (876 ms para 75 mil dados)
+    Intro Sort consegue o posto de mais rápido durante todas execuções (750 ms para 75 mil de registros) e arquivos, seguido pelo Quick Sort (876 ms para 75 mil dados)
     
-    \item Merge e tim sort competem pelo terceiro lugar. Merge consegue ser mais rápido com 25 mil (273.37 ms contra 309.3 ms) e 75 mil (1063.8 ms contra 1257.52 ms) dados, enquanto que tim prevalece nos 10 mil (103.07 ms contra 106.18 ms) e 50 mil (552.98 ms contra 615.46 ms) registros
+    \item Merge e Tim Sort competem pelo terceiro lugar. Merge consegue ser mais rápido com 25 mil (273.37 ms contra 309.3 ms) e 75 mil (1063.8 ms contra 1257.52 ms) dados, enquanto que Tim prevalece nos 10 mil (103.07 ms contra 106.18 ms) e 50 mil (552.98 ms contra 615.46 ms) registros
     
     \item
-    Heap sort tem sua média superada por todos quatro algoritmos anteriores, em todos quatro arquivos de dados
+    Heap Sort tem sua média superada por todos quatro algoritmos anteriores, em todos quatro arquivos de dados
 
 \end{itemize}
 
@@ -726,9 +745,9 @@ No gráfico abaixo, com dezenas de milhares de registros, temos que:
 
 \subsubsection{Número de registros: 100000 a 750000}
 
-Como algoritmos selection e insertion sort só tivera seus testes para arquivos com menos de cem mil registros, as linhas correspondentes a esses algoritmos não foram plotadas.
+Como os algoritmos Selection e Insertion Sort só tiveram seus testes para arquivos com menos de cem mil registros, as linhas correspondentes a esses algoritmos não foram plotadas.
 
-Transparece que o heap sort se destaca dos outros quatro por sua menor eficiência, juntamente com a dupla merge e tim sort. Destacam-se introsort que permaneceu como melhor até levar 10138.76 ms para ordenar 750 mil registros e ser ultrapassado pelo quicksort, que o fez em 9539.94 ms.
+Transparece que o Heap Sort se destaca dos outros quatro por sua menor eficiência, juntamente à dupla Merge e Tim. Destacam-se Intro Sort que permaneceu como melhor até levar 10138.76 ms para ordenar 750 mil registros e ser ultrapassado pelo Quick Sort, que o fez em 9539.94 ms.
 
 \begin{figure}[H]
     \centering
@@ -744,25 +763,25 @@ De posse de mais de um milhão de dados reduz-se muito a possibilidade de algum 
 As observações levantas pelo grupo foram:
 \begin{itemize}
     \item
-    Embora a variação de tempo entre as execuções dos algoritmos tenha aumentado, ainda é possível ver uma disputa e troca de posições entre o merge e o tim sort.
+    Embora a variação de tempo entre as execuções dos algoritmos tenha aumentado, ainda é possível ver uma disputa e troca de posições entre o merge e o Tim Sort.
 
     \item
-    Como esperado, o quick e o intro sort saem como melhores métodos, com destaque para o intro que permanece durante todos arquivos de teste como o mais performático. Com um milhão de registros, o intro sort realizou a ordenação em 11687.73 ms, enquanto que quick levou 12537.14. Essa variância aumenta quando intro sort ordena 7.5 milhões de dados em 94778.95, e quick, em 102603.89, uma diferença de 7824.94 ms ou 7.8 segundos.
+    Como esperado, o Quick e o Intro Sort saem como melhores métodos, com destaque para o Intro que permanece durante todos arquivos de teste como o mais performático. Com um milhão de registros, o Intro Sort realizou a ordenação em 11687.73 ms, enquanto que o Quick levou 12537.14. Essa variância aumenta quando Intro Sort ordena 7.5 milhões de dados em 94778.95, e Quick, em 102603.89, uma diferença de 7824.94 ms ou 7.8 segundos.
     
-    \item É importante notar que os quatro algoritmos mais performáticos com o maior número de registros foram o quick sort e o merge sort, juntamente à suas derivações (intro e tim sort).
+    \item É importante notar que os quatro algoritmos mais performáticos com o maior número de registros foram o Quick e o Merge Sort, juntamente às suas derivações (Intro e Tim Sort).
     
     \item
-    O método híbrido \textbf{introsort} conseguiu superar os três algoritmos (quicksort, heapsort e insertion sort) que o compunha. Há também o caso do tim sort, que triunfou sobre os algoritmos que lhe deram origem (merge e insertion sort), para os casos com 1, 2.5 e 7.5 milhões.
+    O método híbrido \textbf{Introsort} conseguiu superar os três algoritmos (Quick, Heap e Insertion Sort) que o compunha. Há também o caso do Tim Sort, que triunfou sobre os algoritmos que lhe deram origem (Merge e Insertion Sort), para os casos com 1, 2.5 e 7.5 milhões.
     
 \end{itemize}
 
 \subsection{Interrupção de testes (Timeout)}
 
-Como já dito anteriormente, o grupo não executou todos os casos de testes com todos algoritmos. O selection e insertion sort não processaram arquivos de quantidade maior ou igual a cem mil registros.
+Como já dito anteriormente, o grupo não executou todos os casos de testes com todos algoritmos. O Selection e Insertion Sort não processaram arquivos de quantidade maior ou igual a cem mil registros.
 
-Ciente de que para cem mil registros, os algoritmos quick, heap e merge sort, em seus piores tempos de execução, tiveram duração de 1812 (1.81 seg), 2249 (2.24 seg) e 2291 milissegundos (2.29 seg), respectivamente, o grupo considerou plausível e viável determinar um limite máximo de cerca de 100 vezes o tempo gasto pelo merge sort como tempo aceitável para interromper a execução dos métodos insertion e selection sort.
+Ciente de que para cem mil registros, os algoritmos Quick, Heap e Merge Sort, em seus piores tempos de execução, tiveram duração de 1812 (1.81 seg), 2249 (2.24 seg) e 2291 milissegundos (2.29 seg), respectivamente, o grupo considerou plausível e viável determinar um limite máximo de cerca de 100 vezes o tempo gasto pelo Merge Sort como tempo aceitável para interromper a execução dos métodos Insertion e Selection Sort.
 
-Tomando como métrica o custo, em milessegundo por usuário, temos que:
+Tomando como métrica o custo, em milissegundo por usuário, temos que:
 \begin{itemize}
     \item Para ordenar 100 dados, tomando sua melhor execução como base, de 0 ms, gastou-se 0 ms para ordenar cada usuário
     
@@ -774,11 +793,11 @@ Tomando como métrica o custo, em milessegundo por usuário, temos que:
     
 \end{itemize}
 
-Com base na média simples acima, selection sort levou 11.9161 ms para cada registro dos 75 mil. Supondo que esses custo se mantivesse fixo, isto é, não aumentasse com o aumento da lista. Apenas com uma multiplicação simples, teria-se que o custo para ordenar 100 mil dados, seriam gastos 1191910 milessegundos ou 19.8651 minutos, para uma execução.
+Com base na média simples acima, Selection Sort levou 11.9161 ms para cada registro dos 75 mil. Supondo que esses custo se mantivesse fixo, isto é, não aumentasse com o aumento da lista. Apenas com uma multiplicação simples, teria-se que o custo para ordenar 100 mil dados, seriam gastos 1191910 milissegundos ou 19.8651 minutos, para uma execução.
 
 Seriam 3.31 horas para realizar dez execuções, apenas para a ordenação por seleção. Ou seja, no mínimo o dobro, considerando ambos métodos de ordenação.
 
-Dessa forma, tendo em vista que, com 50 mil elementos no conjunto, o algoritmo insertion sort levou 370596 milissegundos (370.6 seg ou 6.176 min), o que já excede o máximo de 229100 (100 * 2291) ms, optou-se por não realizar os testes para valores maiores ou iguais a 100 mil registros, considerando que o tempo de ordenação tende a aumentar quadraticamente com o número de dados.
+Dessa forma, tendo em vista que, com 50 mil elementos no conjunto, o algoritmo Insertion Sort levou 370596 milissegundos (370.6 seg ou 6.176 min), o que já excede o máximo de 229100 (100 * 2291) ms, optou-se por não realizar os testes para valores maiores ou iguais a 100 mil registros para os algoritmos Insertion e Selection Sort, considerando que o tempo de ordenação tende a aumentar quadraticamente com o número de dados.
 
 \begin{thebibliography}{9}
 
